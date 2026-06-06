@@ -77,6 +77,8 @@ class SimulatorBroker:
             score = extra_data.get('final_score', 0)
             stage = extra_data.get('entry_stage', 'NONE')
             sm = extra_data.get('sm_phys_score', 0)
+            ai_wr = extra_data.get('ai_win_rate', 0.5)
+            ai_adv = extra_data.get('ai_advice', 'PASS')
 
             o5 = extra_data.get('o5', 0)      # 5m OI
             tk = extra_data.get('tk', 0)      # Taker Ratio
@@ -90,9 +92,9 @@ class SimulatorBroker:
             # 格式：Score:81 [STAGE_1 | o5:2.1 | tk:1.5 | oi4:12.5 | fd:0.01 | sc:45 | BUILD | TREND]
             # 格式範例：Score:81(Sm:74) [STAGE_1 | o5:2.1 | tk:1.5 | oi4:12.5 | ...]
             detailed_info = (
-                f"Score:{score}(Sm:{sm}) [{stage} | o5:{o5} | tk:{tk} | "
-                f"oi4:{oi4} | fd:{fd} | sc:{sc} | {struct} | {state}]"
-            )
+                    f"Score:{score}(Sm:{sm}) AI:{ai_wr*100:.1f}%({ai_adv}) "
+                    f"[{stage} | o5:{o5} | tk:{tk} | oi4:{oi4} | fd:{fd} | sc:{sc} | {struct} | {state}]"
+                )
         else:
             # 如果沒有 extra_data (通常是 CLOSE 事件)，就用傳進來的理由 (如 SL_HIT)
             detailed_info = reason
